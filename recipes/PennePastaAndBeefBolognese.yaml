@@ -30,10 +30,10 @@ ingredients:
     quantity : 2
     unit	   : tbsp
   - name	   : Grated Pecorino Cheese
-    quantity : 1/4
+    quantity : 0.25
     unit	   : cup
   - name	   : Crushed Red Pepper Flakes
-    quantity : 1/4
+    quantity : 0.25
     unit	   : tsp
 steps:
   - Prepare the ingredients

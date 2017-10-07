@@ -27,7 +27,7 @@ ingredients:
     quanity: 2
     unit: tbsp
   - name: dried oregano
-    quantity : 1/4
+    quantity : 0.25
     unit : tsp
   - name : butter
     quantity : 2

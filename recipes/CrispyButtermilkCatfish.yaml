@@ -21,16 +21,16 @@ ingredients:
     quantity : 2
     unit: tbsp
   - name : Buttermilk
-    quantity: 1/4
+    quantity: 0.25
     unit: cup
   - name : catfish spice blend
-    quantity: 2/3
+    quantity: 0.666666666
     unit: cup
   - name : apple cider vinegar
     quantity: 1
     unit: tbsp
   - name : Mayonnaise
-    quantity: 1/4
+    quantity: 0.25
     unit: cup
 steps:
   - Prepare the ingredients
