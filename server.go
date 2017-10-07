@@ -32,8 +32,8 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
     t, _ := template.ParseFiles("recipes.html")
 
-    for _, r := range getRecipes() {
-        t.Execute(w, r)
+    for i, r := range getRecipes() {
+        t.Execute(w, map[string]interface{}{"Recipe":r, "Index":i})
     }
 }
 
