@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	//	"log"
 	"io/ioutil"
 
 	"gopkg.in/yaml.v2"
@@ -25,30 +24,68 @@ type Recipe struct {
 	Attributes  []string
 }
 
+var recipeDirectory = "./recipes"
+
 func main() {
-	fmt.Println("test")
-
-	// vars
-	var rec1 Recipe
-
-	// TO-DO open all files in folder
-
-	// open generic filename
-	filename := "recipes/PennePastaAndBeefBolognese.yaml"
-	source, err := ioutil.ReadFile(filename)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(len(source))
-
-	// unmarshal data
-	err = yaml.Unmarshal(source, &rec1)
-	if err != nil {
-		//log.Fatalf("error: %v", err)
-		panic(err)
-	}
-
+	var recipes []Recipe
+	recipes = readRecipes(recipeDirectory)
+	
 	// print confirmation file
-	fmt.Printf("--- Recipe:\n%v\n\n", rec1)
+	for _, rec := range recipes {
+		fmt.Printf("--- Recipe: %v\n%v\n\n", rec.Title, rec)
+	}
 }
+
+/**
+ * Remove element from recipes array.
+ */
+func remove(s []Recipe, i int) []Recipe {
+    s[len(s)-1], s[i] = s[i], s[len(s)-1]
+    return s[:len(s)-1]
+}
+
+/**
+ * Reads the recipes from the given dirctory and returns them as an array.
+ */
+func readRecipes(dir string) []Recipe {
+	// get files in folder
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		panic(err)
+	}
+	
+	// array of recipes
+	recipes := make([]Recipe, len(files), len(files))
+	
+	for i, file := range files {
+	// open file
+		source, err := ioutil.ReadFile(dir + "/" + file.Name())
+		if err != nil {
+			panic(err)
+		}
+		
+		// unmarshal data
+		err = yaml.Unmarshal(source, &recipes[i])
+		if err != nil {
+			panic(err)
+		}
+		
+	}
+	
+	return recipes
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
