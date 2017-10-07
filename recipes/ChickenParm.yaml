@@ -1,0 +1,22 @@
+---
+title: Chicken Parmesean
+subtitle: (A fake recipe)
+time: 30 minutes
+calories: 800
+ingredients:
+  - name: Boneless, skinless chicken breast
+    quantity: 2
+    unit: breasts
+  - name: Parmesean cheese
+    quantity: 1
+    unit: item
+  - name: Love
+    quantity: 1
+    unit: item
+steps:
+  - Prepare the ingredients
+  - Cook the thing
+  - Season with love to taste
+  - Enjoy
+Attributes:
+  - test meal
