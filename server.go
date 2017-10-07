@@ -41,9 +41,7 @@ func getRecipe(filters []func(Recipe)bool) Recipe {
         }
     }
 
-    // TODO: get recipe here
     recipe = subDb[rand.Intn(len(subDb))]
-    // END TODO
 
     return recipe
 }
