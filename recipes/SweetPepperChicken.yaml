@@ -1,10 +1,10 @@
 ---
-Title: Sweet Pepper Chicken
-SubTitle: with Ditali Pasta & Spinach
-Time: 25-35 minutes
-Servings: 2
-Calories: 740
-Ingredients:
+title: Sweet Pepper Chicken
+subtitle: with Ditali Pasta & Spinach
+time: 25-35 minutes
+servings: 2
+calories: 740
+ingredients:
   - name	: Boneless, skinless chicken breasts
     quantity  : 2
     unit: breasts
@@ -27,7 +27,7 @@ Ingredients:
     quanity: 2
     unit: tbsp
   - name: dried oregano
-    quantity : 1/4
+    quantity : 0.25
     unit : tsp
   - name : butter
     quantity : 2
@@ -35,9 +35,9 @@ Ingredients:
   - name : Verjus blanc
     quantity : 1
     unit : tbsp
-Steps:
+steps:
   - Prepare the ingredients
   - Cook the thing
   - Enjoy
-Attributes:
+attributes:
   - 30-minute meal

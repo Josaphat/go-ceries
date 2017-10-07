@@ -1,0 +1,24 @@
+---
+title: Chicken Salad Sandwich
+subtitle: (A fake recipe)
+time: 30 minutes
+calories: 800
+ingredients:
+  - name: Boneless, skinless chicken breast
+    quantity: 2
+    unit: breasts
+  - name: Salad
+    quantity: 2
+    unit: salad
+  - name: Bread
+    quantity: 4
+    unit: slices
+steps:
+  - Prepare the ingredients
+  - Grind up the chicken
+  - Mix with salad
+  - place between a pair of bread slices
+  - Season with love to taste
+  - Enjoy
+Attributes:
+  - test meal

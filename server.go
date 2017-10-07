@@ -6,10 +6,6 @@ import (
     "math/rand"
 )
 
-type Recipe struct {
-    Name string
-}
-
 var (
     recipes []Recipe
     database []Recipe
@@ -53,12 +49,12 @@ func getRecipe(filters []func(Recipe)bool) Recipe {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("home.html")
-    t.Execute(w, "foo")
+	t, _ := template.ParseFiles("home.html")
+	t.Execute(w, "foo")
 }
 
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("recipes.html")
+	t, _ := template.ParseFiles("recipes.html")
 
     for i, r := range recipes {
         t.Execute(w, map[string]interface{}{"Recipe":r, "Index":i})
@@ -66,20 +62,15 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-    database = append(database, Recipe{Name:"Chicken Marsala"})
-    database = append(database, Recipe{Name:"Chicken Parm"})
-    database = append(database, Recipe{Name:"Chicken Vindaloo"})
-    database = append(database, Recipe{Name:"Chicken Wings"})
-    database = append(database, Recipe{Name:"Chicken Salad Sandwich"})
-    database = append(database, Recipe{Name:"Chicken Fingers"})
+    database = readRecipes(recipeDirectory)
 
     var filters []func(Recipe)bool
     var names []string
     for i:= 0; i < 5; i++ {
         recipe := getRecipe(filters)
-        names = append(names, recipe.Name)
+        names = append(names, recipe.Title)
         filters = append(filters, func(r Recipe) bool {
-            return !contains(names, r.Name)
+            return !contains(names, r.Title)
         })
         recipes = append(recipes, recipe)
     }

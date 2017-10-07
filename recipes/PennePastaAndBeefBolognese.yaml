@@ -1,10 +1,10 @@
 ---
-Title: Penne Pasta & Beef Bolognese
-SubTitle: with Pecorino Cheese
-Time: 25-35 minutes
-Servings: 2
-Calories: 800
-Ingredients:
+title: Penne Pasta & Beef Bolognese
+subtitle: with Pecorino Cheese
+time: 25-35 minutes
+servings: 2
+calories: 800
+ingredients:
   - name: Ground Beef
     quantity: 10
     unit: oz
@@ -30,14 +30,14 @@ Ingredients:
     quantity : 2
     unit	   : tbsp
   - name	   : Grated Pecorino Cheese
-    quantity : 1/4
+    quantity : 0.25
     unit	   : cup
   - name	   : Crushed Red Pepper Flakes
-    quantity : 1/4
+    quantity : 0.25
     unit	   : tsp
-Steps:
+steps:
   - Prepare the ingredients
   - Cook the thing
   - Enjoy
-Attributes:
+attributes:
   - 30-minute meal

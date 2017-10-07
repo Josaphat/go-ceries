@@ -1,10 +1,10 @@
 ---
-Title: Crispy Buttermilk Catfish
-SubTitle: with Roasted Delicata Squash
-Time: 35-45 mins
-Servings: 2
-Calories: 650
-Ingredients:
+title: Crispy Buttermilk Catfish
+subtitle: with Roasted Delicata Squash
+time: 35-45 mins
+servings: 2
+calories: 650
+ingredients:
   - name : Catfish
     quantity : 2
     unit : Fillets
@@ -21,19 +21,19 @@ Ingredients:
     quantity : 2
     unit: tbsp
   - name : Buttermilk
-    quantity: 1/4
+    quantity: 0.25
     unit: cup
   - name : catfish spice blend
-    quantity: 2/3
+    quantity: 0.666666666
     unit: cup
   - name : apple cider vinegar
     quantity: 1
     unit: tbsp
   - name : Mayonnaise
-    quantity: 1/4
+    quantity: 0.25
     unit: cup
-Steps:
+steps:
   - Prepare the ingredients
   - Cook the thing
   - Enjoy
-Attributes:
+attributes:
