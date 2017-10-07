@@ -25,10 +25,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
     t.Execute(w, "foo")
 }
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Println("world!")
-}
-
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
     t, _ := template.ParseFiles("recipes.html")
 
@@ -39,7 +35,6 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/", handler)
-    http.HandleFunc("/hello", helloHandler)
     http.HandleFunc("/recipes", recipesHandler)
     http.ListenAndServe(":8080", nil)
 }
