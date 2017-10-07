@@ -1,0 +1,22 @@
+---
+title: Chicken Wings
+subtitle: (A fake recipe)
+time: 30 minutes
+calories: 800
+ingredients:
+  - name: Chicken Wings
+    quantity: 10
+    unit: wings
+  - name: Buffalo Sauce
+    quantity: 1
+    unit: cup
+  - name: Fire
+    quantity: 1
+    unit: item
+steps:
+  - Prepare the ingredients
+  - Cook the thing
+  - Season with love to taste
+  - Enjoy
+Attributes:
+  - test meal
