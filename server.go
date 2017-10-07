@@ -4,7 +4,6 @@ import (
     "net/http"
     "html/template"
     "math/rand"
-    "reflect"
 )
 
 type Recipe struct {
@@ -16,12 +15,6 @@ var (
     database []Recipe
 )
 
-func getField(r *Recipe, field string) string {
-    ref := reflect.ValueOf(r)
-    f := reflect.Indirect(ref).FieldByName(field)
-    return string(f.String())
-}
-
 func contains(s []string, e string) bool {
     for _, a := range s {
         if a == e {
@@ -31,12 +24,7 @@ func contains(s []string, e string) bool {
     return false
 }
 
-/*
- * `excludes` maps a Recipe attribute name to the attribute value
- * e.g. {"Name": "Chicken Parm"} indicates that meals named "Chicken Parm"
- * should be excluded
- */
-func getRecipe(excludes map[string][]string) Recipe {
+func getRecipe(filters []func(Recipe)bool) Recipe {
 
     var recipe Recipe
 
@@ -45,8 +33,8 @@ func getRecipe(excludes map[string][]string) Recipe {
     var doAdd bool
     for _, r := range database {
         doAdd = true
-        for k, val := range excludes {
-            if contains(val, getField(&r, k)) {
+        for _, f := range filters {
+            if !f(r) {
                 doAdd = false
                 break
             }
@@ -85,10 +73,14 @@ func main() {
     database = append(database, Recipe{Name:"Chicken Salad Sandwich"})
     database = append(database, Recipe{Name:"Chicken Fingers"})
 
-    excludes := make(map[string][]string)
+    var filters []func(Recipe)bool
+    var names []string
     for i:= 0; i < 5; i++ {
-        recipe := getRecipe(excludes)
-        excludes["Name"] = append(excludes["Name"], recipe.Name)
+        recipe := getRecipe(filters)
+        names = append(names, recipe.Name)
+        filters = append(filters, func(r Recipe) bool {
+            return !contains(names, r.Name)
+        })
         recipes = append(recipes, recipe)
     }
 
