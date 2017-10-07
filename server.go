@@ -11,12 +11,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
     t.Execute(w, "foo")
 }
 
-func fooHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Println("foo!")
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("world!")
 }
 
 func main() {
     http.HandleFunc("/", handler)
-    http.HandleFunc("/foo", fooHandler)
+    http.HandleFunc("/hello", helloHandler)
     http.ListenAndServe(":8080", nil)
 }
