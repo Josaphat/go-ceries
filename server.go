@@ -65,12 +65,10 @@ func main() {
     database = readRecipes(recipeDirectory)
 
     var filters []func(Recipe)bool
-    var names []string
     for i:= 0; i < 5; i++ {
         recipe := getRecipe(filters)
-        names = append(names, recipe.Title)
         filters = append(filters, func(r Recipe) bool {
-            return !contains(names, r.Title)
+            return recipe.Title != r.Title
         })
         recipes = append(recipes, recipe)
     }
