@@ -11,10 +11,12 @@ type Recipe struct {
 }
 
 func getRecipes() []Recipe {
-    //r1 := Recipe{Name:"Chicken parm"}
     var recipes []Recipe
+
+    // TODO: get recipes here
     recipes = append(recipes, Recipe{Name:"Chicken Parm"})
     recipes = append(recipes, Recipe{Name:"Chicken Marsala"})
+
     return recipes
 }
 
