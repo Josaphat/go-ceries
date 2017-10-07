@@ -1,7 +1,32 @@
-<h1>Go-Ceries -- Go Eat!</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>go-ceries</title>
+  </head>
 
-<form action="/recipes" method="POST">
-  <div>
-    <input type="submit" value="Click me!">
-  </div>
-</form>
+  <h1>go-ceries -- Go Eat!</h1>
+
+  <form action="/recipes" method="POST">
+    <p>
+      <label for="days">
+	Get recipes for:
+      </label>
+      <input name="days" id="days" type="text" placeholder="5" /> days
+    </p>
+    <p>
+      <label for="date">Starting on: </label><input name="startdate" id="date" type="date" />
+    </p>
+
+    <div>
+      <p>Include a recipe every day for:</p>
+      <p><input id="breakfast" type="checkbox" /><label for="breakfast">Breakfast</label></p>
+      <p><input id="lunch" type="checkbox" /><label for="lunch">Lunch</label></p>
+      <p><input id="dinner" type="checkbox" /><label for="dinner">Dinner</label></p>
+      <p><input id="dessert" type="checkbox" /><label for="dessert">Dessert</label></p>
+    </div>
+
+    <div>
+      <input type="submit" value="Click me!">
+    </div>
+  </form>
+</html>
