@@ -78,9 +78,7 @@ func groceriesHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	for _, i := range ingredients {
-		t.Execute(w, i)
-	}
+    t.Execute(w, ingredients)
 }
 
 func main() {
