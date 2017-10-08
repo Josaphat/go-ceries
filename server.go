@@ -164,8 +164,46 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 
     excludes = append(excludes, rec)
 
-    //recipes = append(append(recipes[:i], getRecipe(filters)),recipes[i+1:])
-    recipes[i] = getRecipe(filters)
+	// breakfast
+	if contains(rec.Attributes, "breakfast") {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "breakfast")
+		})
+		recipe := getRecipe(mealfilter)
+        recipes[i] = recipe
+		excludes = append(excludes, recipe)
+	}
+	// lunch
+	if contains(rec.Attributes, "lunch") {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "lunch")
+		})
+		recipe := getRecipe(mealfilter)
+        recipes[i] = recipe
+		excludes = append(excludes, recipe)
+	}
+	// dinner
+	if contains(rec.Attributes, "dinner") {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "dinner")
+		})
+		recipe := getRecipe(mealfilter)
+        recipes[i] = recipe
+		excludes = append(excludes, recipe)
+	}
+	// dessert
+	if contains(rec.Attributes, "dessert") {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "dessert")
+		})
+		recipe := getRecipe(mealfilter)
+        recipes[i] = recipe
+		excludes = append(excludes, recipe)
+	}
 
 	t, _ := template.ParseFiles("recipes.html")
 	t.Execute(w, recipes)
