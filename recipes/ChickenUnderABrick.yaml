@@ -14,5 +14,7 @@ steps:
   - Season with love
   - Place chicken under brick
   - Enjoy
+picture: /images/ChickenUnderABrick.png
 attributes:
   - test meal
+  - dinner
