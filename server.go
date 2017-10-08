@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"math/rand"
 	"net/http"
@@ -10,10 +9,10 @@ import (
 )
 
 var (
-	recipes []Recipe
+	recipes  []Recipe
 	excludes []Recipe
 	database []Recipe
-	filters []func(Recipe) bool
+	filters  []func(Recipe) bool
 	dayPlans []DayPlan
 	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
@@ -42,25 +41,25 @@ func containsRecipe(r []Recipe, e Recipe) bool {
 }
 
 func recipeByTitle(title string) (int, int, Recipe) {
-    var retD int
-    var retI int
-    var retRec Recipe
-    doBreak := false
-    for j, d := range dayPlans {
-        for i, r := range d.Recipes {
-            if r.Title == title {
-                retRec = r
-                retI = i
-                retD = j
-                doBreak = true
-                break
-            }
-        }
-        if doBreak {
-            break
-        }
-    }
-    return retD, retI, retRec
+	var retD int
+	var retI int
+	var retRec Recipe
+	doBreak := false
+	for j, d := range dayPlans {
+		for i, r := range d.Recipes {
+			if r.Title == title {
+				retRec = r
+				retI = i
+				retD = j
+				doBreak = true
+				break
+			}
+		}
+		if doBreak {
+			break
+		}
+	}
+	return retD, retI, retRec
 }
 
 func getRecipe(filters []func(Recipe) bool) Recipe {
@@ -122,7 +121,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		numRecipes += days
 		numMeals++
 	}
-    dayPlans = make([]DayPlan, days)
+	dayPlans = make([]DayPlan, days)
 
 	// limit the size to that of the DB
 	if len(database) < numRecipes {
@@ -142,7 +141,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
-            excludes = append(excludes, recipe)
+			excludes = append(excludes, recipe)
 			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
@@ -153,7 +152,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
-            excludes = append(excludes, recipe)
+			excludes = append(excludes, recipe)
 			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
@@ -164,7 +163,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
-            excludes = append(excludes, recipe)
+			excludes = append(excludes, recipe)
 			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
@@ -175,7 +174,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
-            excludes = append(excludes, recipe)
+			excludes = append(excludes, recipe)
 			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 	}
@@ -187,9 +186,9 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 func replaceHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("recipe")
 
-    j, i, rec := recipeByTitle(title)
+	j, i, rec := recipeByTitle(title)
 
-    excludes = append(excludes, rec)
+	excludes = append(excludes, rec)
 
 	// breakfast
 	if contains(rec.Attributes, "breakfast") {
@@ -198,8 +197,8 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 			return contains(rec.Attributes, "breakfast")
 		})
 		recipe := getRecipe(mealfilter)
-        recipes[i] = recipe
-        dayPlans[j].Recipes[i] = recipe
+		recipes[i] = recipe
+		dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// lunch
@@ -209,8 +208,8 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 			return contains(rec.Attributes, "lunch")
 		})
 		recipe := getRecipe(mealfilter)
-        recipes[i] = recipe
-        dayPlans[j].Recipes[i] = recipe
+		recipes[i] = recipe
+		dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// dinner
@@ -220,8 +219,8 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 			return contains(rec.Attributes, "dinner")
 		})
 		recipe := getRecipe(mealfilter)
-        recipes[i] = recipe
-        dayPlans[j].Recipes[i] = recipe
+		recipes[i] = recipe
+		dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// dessert
@@ -231,8 +230,8 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 			return contains(rec.Attributes, "dessert")
 		})
 		recipe := getRecipe(mealfilter)
-        recipes[i] = recipe
-        dayPlans[j].Recipes[i] = recipe
+		recipes[i] = recipe
+		dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 
@@ -263,12 +262,10 @@ func groceriesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("this is a test")
-
 	database = readRecipes(recipeDirectory)
-    filters = append(filters, func(rec Recipe) bool {
+	filters = append(filters, func(rec Recipe) bool {
 		return !containsRecipe(excludes, rec)
-    })
+	})
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/recipes", recipesHandler)
