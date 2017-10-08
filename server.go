@@ -53,10 +53,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("recipes.html")
-
-	for i, r := range recipes {
-		t.Execute(w, map[string]interface{}{"Recipe": r, "Index": i})
-	}
+	t.Execute(w, recipes)
 }
 
 func groceriesHandler(w http.ResponseWriter, r *http.Request) {
@@ -78,7 +75,7 @@ func groceriesHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-    t.Execute(w, ingredients)
+	t.Execute(w, ingredients)
 }
 
 func main() {
