@@ -4,19 +4,19 @@
   <head>
     <meta charset="utf-8">
     <title>go-ceries :: Recipes</title>
+    <link href="style.css" rel="stylesheet">
   </head>
 
   <body>
     {{range .}}
-    <h1>{{.Date}}</h1>
+    <div class="day">
+    <h1 class="date">{{.Date}}</h1>
     {{range .Recipes}}
     <div>
       <h2>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h2>
       <form action="/replace" method="POST">
         <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
-        <div>
-          <input type="submit" value="Click me!">
-        </div>
+        <input type="submit" value="No thanks!">
       </form>
       <button data-recipeid="{{.Id}}" class="toggle_button">Show Recipe</button>
       <div id="recipe_{{.Id}}" style="display:none;">
@@ -46,6 +46,7 @@
       </div>
     </div>
     {{end}}
+    </div>
     {{end}}
 
     <form action="/groceries">

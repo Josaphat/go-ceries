@@ -87,11 +87,6 @@ func getRecipe(filters []func(Recipe) bool) Recipe {
 	return recipe
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("home.html")
-	t.Execute(w, "foo")
-}
-
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	// read in form
 	days, _ := strconv.Atoi(r.FormValue("days"))
@@ -266,8 +261,8 @@ func main() {
 	filters = append(filters, func(rec Recipe) bool {
 		return !containsRecipe(excludes, rec)
 	})
-
-	http.HandleFunc("/", handler)
+	fs := http.FileServer(http.Dir("."))
+	http.Handle("/", fs)
 	http.HandleFunc("/recipes", recipesHandler)
 	http.HandleFunc("/replace", replaceHandler)
 	http.HandleFunc("/groceries", groceriesHandler)
