@@ -13,7 +13,7 @@
     <h1 class="date">{{.Date}}</h1>
     {{range .Recipes}}
     <div>
-      <h2>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h2>
+      <h2><span class="title">{{.Title}}</span> <span class="subtitle">{{.Subtitle}}</span></h2>
       <form action="/replace" method="POST">
         <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
         <input type="submit" value="No thanks!">
