@@ -1,0 +1,16 @@
+---
+title: Chicken and Waffles
+subtitle: Sweet and Savory
+time: 20 minutes
+calories: 1000
+ingredients:
+  - name: chicken
+    quantity: 1
+    unit: bird
+steps:
+  - put the chicken on the waffle
+  - Enjoy
+picture: /images/ChickenAndWaffles.png
+attributes:
+  - test meal
+  - breakfast
