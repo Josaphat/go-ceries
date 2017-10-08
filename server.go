@@ -17,6 +17,8 @@ var (
 	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
 
+var badRequests int = 0
+
 type DayPlan struct {
 	Date    string
 	Recipes []Recipe
@@ -82,11 +84,12 @@ func getRecipe(filters []func(Recipe) bool) Recipe {
 		}
 	}
 
-	recipe.Title = "Out of Recipes!"
-	recipe.Picture = "/images/allout.png"
 
 	if len(subDb) > 0 {
 		recipe = subDb[rand.Intn(len(subDb))]
+	} else {
+		recipe.Title = "Out of Recipes! " + string(badRequests);
+		recipe.Picture = "/images/allout.png"
 	}
 
 	return recipe
