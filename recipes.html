@@ -6,6 +6,12 @@
 	{{range .Recipes}}
     <div>
       <h2>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h2>
+      <form action="/replace" method="POST">
+        <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
+        <div>
+          <input type="submit" value="Click me!">
+        </div>
+      </form>
       <ul>
 	{{if .Attributes}}
 	<li>Tags: {{range .Attributes}}{{.}}{{end}}</li>
