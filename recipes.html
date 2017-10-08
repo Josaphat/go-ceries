@@ -10,51 +10,48 @@
   <body>
     {{range .}}
     <div class="day">
-    <h1 class="date">{{.Date}}</h1>
-    {{range .Recipes}}
-    <div>
-      <h2><span class="title">{{.Title}}</span> <span class="subtitle">{{.Subtitle}}</span></h2>
-	  <img src={{.Picture}} alt="image" style="width:200px;height:200px;">
-      <form action="/replace" method="POST">
-        <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
-        <input type="submit" value="No thanks!">
-      </form>
-      <button data-recipeid="{{.Id}}" class="toggle_button">Show Recipe</button>
-      <div id="recipe_{{.Id}}" style="display:none;">
-	<ul>
-	  {{if .Attributes}}
-	  <li>Tags: {{range .Attributes}}{{.}}{{end}}</li>
-	  {{end}}
+      <h1 class="date">{{.Date}}</h1>
+      {{range .Recipes}}
+      <div>
+	<h2><span class="title">{{.Title}}</span> <span class="subtitle">{{.Subtitle}}</span></h2>
+	<img src={{.Picture}} alt="image" style="width:200px;height:200px;">
+	<form action="/replace" method="POST">
+          <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
+          <input type="submit" value="No thanks!">
+	</form>
+	<button data-recipeid="{{.Id}}" class="toggle_button">Show Recipe</button>
+	<div id="recipe_{{.Id}}" style="display:none;">
+	  <ul>
+	    {{if .Attributes}}
+	    <li>Tags: {{range .Attributes}}{{.}}{{end}}</li>
+	    {{end}}
 
-	  <li>Time: {{.Time}}</li>
-	  <li>Servings: {{.Servings}}</li>
-	  <li>Calories: {{.Calories}}</li>
-	</ul>
+	    <li>Time: {{.Time}}</li>
+	    <li>Servings: {{.Servings}}</li>
+	    <li>Calories: {{.Calories}}</li>
+	  </ul>
 
-	<h3>Ingredients</h3>
-	<ul>
-	  {{range .Ingredients}}
-	  <li>{{.Quantity}} {{.Unit}}(s) of {{.Name}}</li>
-	  {{end}}
-	</ul>
+	  <h3>Ingredients</h3>
+	  <ul>
+	    {{range .Ingredients}}
+	    <li>{{.Quantity}} {{.Unit}}(s) of {{.Name}}</li>
+	    {{end}}
+	  </ul>
 
-	<h3>Preparation</h3>
-	<ul>
-	  {{range .Steps}}
-	  <li>{{.}}</li>
-	  {{end}}
-	</ul>
+	  <h3>Preparation</h3>
+	  <ul>
+	    {{range .Steps}}
+	    <li>{{.}}</li>
+	    {{end}}
+	  </ul>
+	</div>
       </div>
-    </div>
-    {{end}}
+      {{end}}
     </div>
     {{end}}
 
-    <form action="/groceries">
-      <button type="Submit">
-	Show Grocery List
-      </button>
-    </form>
+    <div id="grocerylist">
+    </div>
 
 
     <!-- Scripts -->
@@ -75,6 +72,30 @@
           }
         }, false);
       }
+
+      (function () {
+        var httpRequest;
+
+        (function makeRequest() {
+          httpRequest = new XMLHttpRequest();
+          if (!httpRequest) {
+            alert("Ooops :(");
+            return false;
+          }
+
+          httpRequest.onreadystatechange = alertContents;
+          httpRequest.open("GET", "groceries");
+          httpRequest.send();
+        })()
+
+        function alertContents() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+              document.getElementById("grocerylist").innerHTML = httpRequest.responseText;
+            }
+          }
+        }
+      })();
     </script>
   </body>
 </html>
