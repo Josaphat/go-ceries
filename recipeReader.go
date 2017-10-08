@@ -21,6 +21,7 @@ type Recipe struct {
 	Ingredients []Ingredient
 	Steps       []string
 	Attributes  []string
+	Id          int
 }
 
 var recipeDirectory = "./recipes"
@@ -58,6 +59,7 @@ func readRecipes(dir string) []Recipe {
 		if err != nil {
 			panic(err)
 		}
+		recipes[i].Id = i
 	}
 
 	return recipes

@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>go-ceries :: Recipes</title>
+  </head>
+
   <body>
     {{range .}}
-	<h1>{{.Date}}</h1>
-	{{range .Recipes}}
+    <h1>{{.Date}}</h1>
+    {{range .Recipes}}
     <div>
       <h2>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h2>
       <form action="/replace" method="POST">
@@ -12,37 +18,61 @@
           <input type="submit" value="Click me!">
         </div>
       </form>
-      <ul>
-	{{if .Attributes}}
-	<li>Tags: {{range .Attributes}}{{.}}{{end}}</li>
-	{{end}}
+      <button data-recipeid="{{.Id}}" class="toggle_button">Show Recipe</button>
+      <div id="recipe_{{.Id}}" style="display:none;">
+	<ul>
+	  {{if .Attributes}}
+	  <li>Tags: {{range .Attributes}}{{.}}{{end}}</li>
+	  {{end}}
 
-	<li>Time: {{.Time}}</li>
-	<li>Servings: {{.Servings}}</li>
-	<li>Calories: {{.Calories}}</li>
-      </ul>
+	  <li>Time: {{.Time}}</li>
+	  <li>Servings: {{.Servings}}</li>
+	  <li>Calories: {{.Calories}}</li>
+	</ul>
 
-      <h3>Ingredients</h3>
-      <ul>
-	{{range .Ingredients}}
-	<li>{{.Quantity}} {{.Unit}}(s) of {{.Name}}</li>
-	{{end}}
-      </ul>
+	<h3>Ingredients</h3>
+	<ul>
+	  {{range .Ingredients}}
+	  <li>{{.Quantity}} {{.Unit}}(s) of {{.Name}}</li>
+	  {{end}}
+	</ul>
 
-      <h3>Preparation</h3>
-      <ul>
-	{{range .Steps}}
-	<li>{{.}}</li>
-	{{end}}
-      </ul>
+	<h3>Preparation</h3>
+	<ul>
+	  {{range .Steps}}
+	  <li>{{.}}</li>
+	  {{end}}
+	</ul>
+      </div>
     </div>
     {{end}}
     {{end}}
-	
+
     <form action="/groceries">
       <button type="Submit">
 	Show Grocery List
       </button>
     </form>
+
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      var toggleButtons = document.getElementsByClassName("toggle_button");
+      for (btn of toggleButtons) {
+        btn.addEventListener('click', function(e) {
+          var recipeid = e.target.getAttribute('data-recipeid');
+          var toHide = document.getElementById('recipe_'+recipeid);
+          if (toHide.style.display != 'none') {
+            toHide.style.display = 'none';
+            e.target.innerHTML = "Show Recipe";
+          }
+          else {
+            toHide.style.display = 'block'
+            e.target.innerHTML = "Hide Recipe";
+          }
+        }, false);
+      }
+    </script>
   </body>
 </html>
