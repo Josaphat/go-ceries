@@ -14,8 +14,14 @@ var (
 	excludes []Recipe
 	database []Recipe
 	filters []func(Recipe) bool
+	dayPlans []DayPlan
 	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
+
+type DayPlan struct {
+	Date    string
+	Recipes []Recipe
+}
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
@@ -35,17 +41,26 @@ func containsRecipe(r []Recipe, e Recipe) bool {
 	return false
 }
 
-func recipeByTitle(title string) (int, Recipe) {
+func recipeByTitle(title string) (int, int, Recipe) {
+    var retD int
     var retI int
     var retRec Recipe
-    for i, r := range recipes {
-        if r.Title == title {
-            retRec = r
-            retI = i
+    doBreak := false
+    for j, d := range dayPlans {
+        for i, r := range d.Recipes {
+            if r.Title == title {
+                retRec = r
+                retI = i
+                retD = j
+                doBreak = true
+                break
+            }
+        }
+        if doBreak {
             break
         }
     }
-    return retI, retRec
+    return retD, retI, retRec
 }
 
 func getRecipe(filters []func(Recipe) bool) Recipe {
@@ -85,21 +100,30 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	lunch := r.FormValue("lunch") == "on"
 	dinner := r.FormValue("dinner") == "on"
 	dessert := r.FormValue("dessert") == "on"
+	rawDate := r.FormValue("startdate")
+	date, _ := time.Parse("2006-01-02", rawDate)
 
 	// sum number of recipes
 	numRecipes := 0
+	numMeals := 0
 	if breakfast {
 		numRecipes += days
+		numMeals++
 	}
 	if lunch {
 		numRecipes += days
+		numMeals++
 	}
 	if dinner {
 		numRecipes += days
+		numMeals++
 	}
 	if dessert {
 		numRecipes += days
+		numMeals++
 	}
+    dayPlans = make([]DayPlan, days)
+
 	// limit the size to that of the DB
 	if len(database) < numRecipes {
 		numRecipes = len(database)
@@ -107,60 +131,63 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	recipes = make([]Recipe, 0, 0)
 	excludes = make([]Recipe, 0, 0)
 
+	for i := 0; i < days; i++ {
+		dayPlans[i].Date = date.Format("Monday Jan 2")
+		date = date.Add(time.Duration(24) * time.Hour)
 
-	// breakfast
-	for i := 0; (i < days) && breakfast; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "breakfast")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-		excludes = append(excludes, recipe)
-	}
-	// lunch
-	for i := 0; (i < days) && lunch; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "lunch")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-		excludes = append(excludes, recipe)
-	}
-	// dinner
-	for i := 0; (i < days) && dinner; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "dinner")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-		excludes = append(excludes, recipe)
-	}
-	// dessert
-	for i := 0; (i < days) && dessert; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "dessert")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-		excludes = append(excludes, recipe)
+		if breakfast {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "breakfast")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+            excludes = append(excludes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
+		}
+
+		if lunch {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "lunch")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+            excludes = append(excludes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
+		}
+
+		if dinner {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "dinner")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+            excludes = append(excludes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
+		}
+
+		if dessert {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "dessert")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+            excludes = append(excludes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
+		}
 	}
 
 	t, _ := template.ParseFiles("recipes.html")
-	t.Execute(w, recipes)
+	t.Execute(w, dayPlans)
 }
 
 func replaceHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Println("replaced!")
 	title := r.FormValue("recipe")
-    fmt.Println(title)
 
-    i, rec := recipeByTitle(title)
-    fmt.Println(rec)
-    fmt.Println(i)
+    j, i, rec := recipeByTitle(title)
 
     excludes = append(excludes, rec)
 
@@ -172,6 +199,7 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
         recipes[i] = recipe
+        dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// lunch
@@ -182,6 +210,7 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
         recipes[i] = recipe
+        dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// dinner
@@ -192,6 +221,7 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
         recipes[i] = recipe
+        dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 	// dessert
@@ -202,11 +232,12 @@ func replaceHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
         recipes[i] = recipe
+        dayPlans[j].Recipes[i] = recipe
 		excludes = append(excludes, recipe)
 	}
 
 	t, _ := template.ParseFiles("recipes.html")
-	t.Execute(w, recipes)
+	t.Execute(w, dayPlans)
 }
 
 func groceriesHandler(w http.ResponseWriter, r *http.Request) {
