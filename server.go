@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"math/rand"
 	"net/http"
@@ -67,21 +66,16 @@ func groceriesHandler(w http.ResponseWriter, r *http.Request) {
 	var names []string
 
 	for _, r := range recipes {
-		fmt.Println(r)
 		for _, i := range r.Ingredients {
-			fmt.Println(i)
 			if !contains(names, i.Name) {
 				names = append(names, i.Name)
-				fmt.Println(names)
 				ingredients[i.Name] = i
-				fmt.Println(ingredients)
 			} else {
 				ingr := ingredients[i.Name]
 				ingr.Quantity += i.Quantity
 				ingredients[i.Name] = ingr
 			}
 		}
-		fmt.Println("")
 	}
 
 	for _, i := range ingredients {
