@@ -1,5 +1,5 @@
 ---
-title: Kung Pao Chicken
+title: Chicken Jell-O
 subtitle: (A fake recipe)
 time: 30 minutes
 calories: 800
@@ -7,12 +7,15 @@ ingredients:
   - name: Boneless, skinless chicken
     quantity: 2
     unit: breast
-  - name: Red Peppers
-    quantity: 1
-    unit: ct
-  - name: Peanuts
-    quantity: 5
-    unit: ct
+  - name: Jell-O™
+    quantity: 4
+    unit: cup
+  - name: butter
+    quantity: 2
+    unit: sticks
+  - name: American Cheese
+    quantity: 4
+    unit: single
 steps:
   - Prepare the ingredients
   - Cook the thing
@@ -20,3 +23,4 @@ steps:
   - Enjoy
 attributes:
   - test meal
+  - dessert
