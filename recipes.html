@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h3>{{.Recipe.Title}}</h3>
+    {{range .}}
+    <h3>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h3>
+    <ul>
+      <li>Time: {{.Time}}</li>
+      <li>Servings: {{.Servings}}</li>
+      <li>Calories: {{.Calories}}</li>
+      <li>Ingredients:
+	<div>
+	  <ul>
+	    {{range .Ingredients}}
+	    <li>{{.Quantity}} {{.Unit}}(s) of {{.Name}}</li>
+	    {{end}}
+	  </ul>
+	</div>
+      </li>
+    </ul>
+    {{end}}
   </body>
 </html>
