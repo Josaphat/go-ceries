@@ -10,8 +10,10 @@ import (
 )
 
 var (
-	recipes  []Recipe
+	recipes []Recipe
+	excludes []Recipe
 	database []Recipe
+	filters []func(Recipe) bool
 	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
 
@@ -31,6 +33,19 @@ func containsRecipe(r []Recipe, e Recipe) bool {
 		}
 	}
 	return false
+}
+
+func recipeByTitle(title string) (int, Recipe) {
+    var retI int
+    var retRec Recipe
+    for i, r := range recipes {
+        if r.Title == title {
+            retRec = r
+            retI = i
+            break
+        }
+    }
+    return retI, retRec
 }
 
 func getRecipe(filters []func(Recipe) bool) Recipe {
@@ -90,12 +105,8 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		numRecipes = len(database)
 	}
 	recipes = make([]Recipe, 0, 0)
+	excludes = make([]Recipe, 0, 0)
 
-	// filter out repeats
-	var filters []func(Recipe) bool
-	filters = append(filters, func(rec Recipe) bool {
-		return !containsRecipe(recipes, rec)
-	})
 
 	// breakfast
 	for i := 0; (i < days) && breakfast; i++ {
@@ -105,6 +116,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
 		recipes = append(recipes, recipe)
+		excludes = append(excludes, recipe)
 	}
 	// lunch
 	for i := 0; (i < days) && lunch; i++ {
@@ -114,6 +126,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
 		recipes = append(recipes, recipe)
+		excludes = append(excludes, recipe)
 	}
 	// dinner
 	for i := 0; (i < days) && dinner; i++ {
@@ -123,6 +136,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
 		recipes = append(recipes, recipe)
+		excludes = append(excludes, recipe)
 	}
 	// dessert
 	for i := 0; (i < days) && dessert; i++ {
@@ -132,7 +146,26 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		recipe := getRecipe(mealfilter)
 		recipes = append(recipes, recipe)
+		excludes = append(excludes, recipe)
 	}
+
+	t, _ := template.ParseFiles("recipes.html")
+	t.Execute(w, recipes)
+}
+
+func replaceHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("replaced!")
+	title := r.FormValue("recipe")
+    fmt.Println(title)
+
+    i, rec := recipeByTitle(title)
+    fmt.Println(rec)
+    fmt.Println(i)
+
+    excludes = append(excludes, rec)
+
+    //recipes = append(append(recipes[:i], getRecipe(filters)),recipes[i+1:])
+    recipes[i] = getRecipe(filters)
 
 	t, _ := template.ParseFiles("recipes.html")
 	t.Execute(w, recipes)
@@ -164,9 +197,13 @@ func main() {
 	fmt.Println("this is a test")
 
 	database = readRecipes(recipeDirectory)
+    filters = append(filters, func(rec Recipe) bool {
+		return !containsRecipe(excludes, rec)
+    })
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/recipes", recipesHandler)
+	http.HandleFunc("/replace", replaceHandler)
 	http.HandleFunc("/groceries", groceriesHandler)
 	http.ListenAndServe(":8080", nil)
 }
