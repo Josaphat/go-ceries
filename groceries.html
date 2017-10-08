@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h3>Shopping list:</h3>
+    <!-- FIXME: Don't use the date style here -->
+    <h1 class="date">Shopping list:</h1>
     <ul>
       {{range .}}
       <li>{{.Name}}: {{.Quantity}} {{.Unit}}</li>
       {{end}}
     </ul>
-  </body>
-</html>
