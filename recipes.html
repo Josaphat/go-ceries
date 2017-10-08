@@ -2,6 +2,8 @@
 <html>
   <body>
     {{range .}}
+	<h1>{{.Date}}</h1>
+	{{range .Recipes}}
     <div>
       <h2>{{.Title}} <span class="subtitle">{{.Subtitle}}</span></h2>
       <ul>
@@ -29,7 +31,8 @@
       </ul>
     </div>
     {{end}}
-
+    {{end}}
+	
     <form action="/groceries">
       <button type="Submit">
 	Show Grocery List

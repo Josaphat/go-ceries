@@ -15,6 +15,11 @@ var (
 	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
 
+type DayPlan struct {
+	Date time.Time
+	Recipes []Recipe
+}
+
 func contains(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
@@ -70,7 +75,10 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	lunch := r.FormValue("lunch") == "on"
 	dinner := r.FormValue("dinner") == "on"
 	dessert := r.FormValue("dessert") == "on"
-
+	rawDate:= r.FormValue("startdate")
+	date, _ := time.Parse("2006-01-02", rawDate)
+	
+	
 	// sum number of recipes
 	numRecipes := 0
 	numMeals := 0
@@ -90,6 +98,8 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		numRecipes += days
 		numMeals++
 	}
+	dayPlans := make([]DayPlan, days)
+	
 	// limit the size to that of the DB
 	if len(database) < numRecipes {
 		numRecipes = len(database)
@@ -104,6 +114,8 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 
 	// breakfast
 	for i := 0; i < days; i++ {
+		dayPlans[i].Date = date
+		date = date.Add(time.Duration(24) * time.Hour)
 		if breakfast {
 			// get random recipe
 			mealfilter := append(filters, func(rec Recipe) bool {
@@ -111,6 +123,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
 		if lunch {
@@ -120,6 +133,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
 		if dinner {
@@ -129,6 +143,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 
 		if dessert {
@@ -138,11 +153,12 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			recipe := getRecipe(mealfilter)
 			recipes = append(recipes, recipe)
+			dayPlans[i].Recipes = append(dayPlans[i].Recipes, recipe)
 		}
 	}
 
 	t, _ := template.ParseFiles("recipes.html")
-	t.Execute(w, recipes)
+	t.Execute(w, dayPlans)
 }
 
 func groceriesHandler(w http.ResponseWriter, r *http.Request) {
