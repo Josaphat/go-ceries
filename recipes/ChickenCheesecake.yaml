@@ -1,5 +1,5 @@
 ---
-title: Kung Pao Chicken
+title: Chicken Cheesecake
 subtitle: (A fake recipe)
 time: 30 minutes
 calories: 800
@@ -7,11 +7,11 @@ ingredients:
   - name: Boneless, skinless chicken
     quantity: 2
     unit: breast
-  - name: Red Peppers
-    quantity: 1
-    unit: ct
-  - name: Peanuts
-    quantity: 5
+  - name: butter
+    quantity: 2
+    unit: sticks
+  - name: eggs
+    quantity: 6
     unit: ct
 steps:
   - Prepare the ingredients
@@ -20,3 +20,4 @@ steps:
   - Enjoy
 attributes:
   - test meal
+  - dessert

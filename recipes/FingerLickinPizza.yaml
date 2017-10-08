@@ -1,0 +1,35 @@
+---
+title: Finger Lickin Pizza
+subtitle: (A fake recipe)
+time: 30 minutes
+calories: 800
+ingredients:
+  - name: Pizza
+    quantity: 1
+    unit: large
+  - name: Fried Chicken
+    quantity: 1
+    unit: whole
+  - name: Whipped Cream
+    quantity: 1
+    unit: waterfall
+  - name: Spaghetti
+    quantity: 1
+    unit: strand
+  - name: fishsticks
+    quantity: 1
+    unit: stick
+  - name: ketchup
+    quantity: 2
+    unit: taste
+  - name: meatloaf
+    quantity: 1
+    unit: loaf
+steps:
+  - Get a pizza
+  - Add chickin. Make it finger lickin.
+  - Season with love to taste
+  - Enjoy
+attributes:
+  - test meal
+  - breakfast

@@ -1,5 +1,5 @@
 ---
-title: Kung Pao Chicken
+title: Chicken Ice Cream
 subtitle: (A fake recipe)
 time: 30 minutes
 calories: 800
@@ -7,12 +7,12 @@ ingredients:
   - name: Boneless, skinless chicken
     quantity: 2
     unit: breast
-  - name: Red Peppers
+  - name: Ice
     quantity: 1
     unit: ct
-  - name: Peanuts
-    quantity: 5
-    unit: ct
+  - name: Cream
+    quantity: 1
+    unit: gallon
 steps:
   - Prepare the ingredients
   - Cook the thing
@@ -20,3 +20,4 @@ steps:
   - Enjoy
 attributes:
   - test meal
+  - dessert

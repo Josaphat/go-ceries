@@ -1,5 +1,5 @@
 ---
-title: Kung Pao Chicken
+title: Chicken With Broccoli
 subtitle: (A fake recipe)
 time: 30 minutes
 calories: 800
@@ -7,12 +7,12 @@ ingredients:
   - name: Boneless, skinless chicken
     quantity: 2
     unit: breast
-  - name: Red Peppers
+  - name: Garlic
     quantity: 1
-    unit: ct
-  - name: Peanuts
-    quantity: 5
-    unit: ct
+    unit: head
+  - name: Broccoli
+    quantity: 1
+    unit: lbs
 steps:
   - Prepare the ingredients
   - Cook the thing
