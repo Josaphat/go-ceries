@@ -1,0 +1,21 @@
+---
+title: Lime and Coconut
+subtitle: To Drink
+time: 1 minutes
+calories: 2
+ingredients:
+  - name: Lime
+    quantity: 1
+    unit: sphere
+  - name: coconut
+    quantity: 1
+    unit: sphere
+steps:
+  - Put the lime in the coconut
+  - Drink them both together
+  - Put the lime in the coconut
+  - Drink them both up
+picture: /images/LimeAndCoconut.png
+attributes:
+  - technically a drink, unless you eat the meat
+  - dessert

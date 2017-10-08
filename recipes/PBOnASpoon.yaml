@@ -1,0 +1,19 @@
+---
+title: Peanutbutter On A Sppon
+subtitle: (Dont eat the spoon)
+time: 1 minutes
+calories: 10
+ingredients:
+  - name: Peanuts (buttered)
+    quantity: 20
+    unit: nuts
+  - name: Spoon
+    quantity: 1
+    unit: Utencil Unit
+steps:
+  - Dip the Spoon into peanutbutter
+  - If it doesnt go in easily, the lid is still on
+  - Lick with gusto
+picture: /images/PBOnASpoon.png
+attributes:
+  - lunch

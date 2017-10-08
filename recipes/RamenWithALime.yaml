@@ -1,0 +1,22 @@
+---
+title: Ramen with A Lime
+subtitle: (A real recipe)
+time: 3 minutes
+calories: 12012312
+ingredients:
+  - name: Instant ramen
+    quantity: 1
+    unit: package
+  - name: lime
+    quantity: 1
+    unit: sphere
+steps:
+  - Follow instant ramen instructions
+  - Cut lime
+  - Squeeze lime into ramen
+  - Consume
+  - Re-evaluate your life descisions
+picture: /images/RamenWithLime.png
+attributes:
+  - test meal
+  - lunch

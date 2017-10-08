@@ -1,0 +1,17 @@
+---
+title: Tuna From A Can
+subtitle: (It's the chicken of the sea)
+time: 3 minutes
+calories: 200
+ingredients:
+  - name: tuna
+    quantity: 1
+    unit: cans
+steps:
+  - Open can
+  - Drain
+  - Enjoy
+picture: /images/TunaCan.png
+attributes:
+  - test meal
+  - dinner
