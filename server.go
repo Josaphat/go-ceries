@@ -16,7 +16,7 @@ var (
 )
 
 type DayPlan struct {
-	Date time.Time
+	Date    string
 	Recipes []Recipe
 }
 
@@ -75,10 +75,9 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	lunch := r.FormValue("lunch") == "on"
 	dinner := r.FormValue("dinner") == "on"
 	dessert := r.FormValue("dessert") == "on"
-	rawDate:= r.FormValue("startdate")
+	rawDate := r.FormValue("startdate")
 	date, _ := time.Parse("2006-01-02", rawDate)
-	
-	
+
 	// sum number of recipes
 	numRecipes := 0
 	numMeals := 0
@@ -99,7 +98,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		numMeals++
 	}
 	dayPlans := make([]DayPlan, days)
-	
+
 	// limit the size to that of the DB
 	if len(database) < numRecipes {
 		numRecipes = len(database)
@@ -114,7 +113,7 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 
 	// breakfast
 	for i := 0; i < days; i++ {
-		dayPlans[i].Date = date
+		dayPlans[i].Date = date.Format("Monday Jan 2")
 		date = date.Add(time.Duration(24) * time.Hour)
 		if breakfast {
 			// get random recipe
