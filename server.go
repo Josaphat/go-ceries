@@ -111,10 +111,10 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		return !containsRecipe(recipes, rec)
 	})
 
-	// breakfast
 	for i := 0; i < days; i++ {
 		dayPlans[i].Date = date.Format("Monday Jan 2")
 		date = date.Add(time.Duration(24) * time.Hour)
+
 		if breakfast {
 			// get random recipe
 			mealfilter := append(filters, func(rec Recipe) bool {
