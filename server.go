@@ -134,13 +134,6 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 		recipes = append(recipes, recipe)
 	}
 
-	/*
-	    for i:= 0; i < numRecipes; i++ {
-			// get random recipe
-	        recipe := getRecipe(filters)
-	        recipes = append(recipes, recipe)
-	    }*/
-
 	t, _ := template.ParseFiles("recipes.html")
 	t.Execute(w, recipes)
 }
