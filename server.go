@@ -73,17 +73,22 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 
 	// sum number of recipes
 	numRecipes := 0
+	numMeals := 0
 	if breakfast {
 		numRecipes += days
+		numMeals++
 	}
 	if lunch {
 		numRecipes += days
+		numMeals++
 	}
 	if dinner {
 		numRecipes += days
+		numMeals++
 	}
 	if dessert {
 		numRecipes += days
+		numMeals++
 	}
 	// limit the size to that of the DB
 	if len(database) < numRecipes {
@@ -98,40 +103,42 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	// breakfast
-	for i := 0; (i < days) && breakfast; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "breakfast")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-	}
-	// lunch
-	for i := 0; (i < days) && lunch; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "lunch")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-	}
-	// dinner
-	for i := 0; (i < days) && dinner; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "dinner")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
-	}
-	// dessert
-	for i := 0; (i < days) && dessert; i++ {
-		// get random recipe
-		mealfilter := append(filters, func(rec Recipe) bool {
-			return contains(rec.Attributes, "dessert")
-		})
-		recipe := getRecipe(mealfilter)
-		recipes = append(recipes, recipe)
+	for i := 0; i < days; i++ {
+		if breakfast {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "breakfast")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+		}
+
+		if lunch {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "lunch")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+		}
+
+		if dinner {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "dinner")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+		}
+
+		if dessert {
+			// get random recipe
+			mealfilter := append(filters, func(rec Recipe) bool {
+				return contains(rec.Attributes, "dessert")
+			})
+			recipe := getRecipe(mealfilter)
+			recipes = append(recipes, recipe)
+		}
 	}
 
 	t, _ := template.ParseFiles("recipes.html")
