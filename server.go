@@ -88,7 +88,8 @@ func getRecipe(filters []func(Recipe) bool) Recipe {
 	if len(subDb) > 0 {
 		recipe = subDb[rand.Intn(len(subDb))]
 	} else {
-		recipe.Title = "Out of Recipes! " + string(badRequests);
+		number := strconv.Itoa(badRequests)
+		recipe.Title = "Out of Recipes! " + number
 		recipe.Picture = "/images/allout.png"
 	}
 
