@@ -20,6 +20,7 @@ type Recipe struct {
 	Calories    int
 	Ingredients []Ingredient
 	Steps       []string
+	Picture     string
 	Attributes  []string
 	Id          int
 }
@@ -60,6 +61,10 @@ func readRecipes(dir string) []Recipe {
 			panic(err)
 		}
 		recipes[i].Id = i
+
+		if len(recipes[i].Picture) == 0 {
+			recipes[i].Picture = "/images/noimage.png"
+		}
 	}
 
 	return recipes

@@ -14,6 +14,7 @@
     {{range .Recipes}}
     <div>
       <h2><span class="title">{{.Title}}</span> <span class="subtitle">{{.Subtitle}}</span></h2>
+	  <img src={{.Picture}} alt="image" style="width:200px;height:200px;">
       <form action="/replace" method="POST">
         <input name="recipe" id="recipe" type="hidden" value={{.Title}} />
         <input type="submit" value="No thanks!">

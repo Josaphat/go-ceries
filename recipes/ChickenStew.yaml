@@ -15,5 +15,6 @@ steps:
   - Cook the thing
   - Season with love to taste
   - Enjoy
-Attributes:
+picture: /images/ChickenStew.png
+attributes:
   - test meal
