@@ -1,14 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 var (
 	recipes  []Recipe
 	database []Recipe
+	random   *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
 
 func contains(s []string, e string) bool {
@@ -20,8 +24,16 @@ func contains(s []string, e string) bool {
 	return false
 }
 
-func getRecipe(filters []func(Recipe) bool) Recipe {
+func containsRecipe(r []Recipe, e Recipe) bool {
+	for _, a := range r {
+		if a.Title == e.Title {
+			return true
+		}
+	}
+	return false
+}
 
+func getRecipe(filters []func(Recipe) bool) Recipe {
 	var recipe Recipe
 
 	// Apply filters
@@ -52,6 +64,76 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func recipesHandler(w http.ResponseWriter, r *http.Request) {
+	// read in form
+	days, _ := strconv.Atoi(r.FormValue("days"))
+	breakfast := r.FormValue("breakfast") == "on"
+	lunch := r.FormValue("lunch") == "on"
+	dinner := r.FormValue("dinner") == "on"
+	dessert := r.FormValue("dessert") == "on"
+
+	// sum number of recipes
+	numRecipes := 0
+	if breakfast {
+		numRecipes += days
+	}
+	if lunch {
+		numRecipes += days
+	}
+	if dinner {
+		numRecipes += days
+	}
+	if dessert {
+		numRecipes += days
+	}
+	// limit the size to that of the DB
+	if len(database) < numRecipes {
+		numRecipes = len(database)
+	}
+	recipes = make([]Recipe, 0, 0)
+
+	// filter out repeats
+	var filters []func(Recipe) bool
+	filters = append(filters, func(rec Recipe) bool {
+		return !containsRecipe(recipes, rec)
+	})
+
+	// breakfast
+	for i := 0; (i < days) && breakfast; i++ {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "breakfast")
+		})
+		recipe := getRecipe(mealfilter)
+		recipes = append(recipes, recipe)
+	}
+	// lunch
+	for i := 0; (i < days) && lunch; i++ {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "lunch")
+		})
+		recipe := getRecipe(mealfilter)
+		recipes = append(recipes, recipe)
+	}
+	// dinner
+	for i := 0; (i < days) && dinner; i++ {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "dinner")
+		})
+		recipe := getRecipe(mealfilter)
+		recipes = append(recipes, recipe)
+	}
+	// dessert
+	for i := 0; (i < days) && dessert; i++ {
+		// get random recipe
+		mealfilter := append(filters, func(rec Recipe) bool {
+			return contains(rec.Attributes, "dessert")
+		})
+		recipe := getRecipe(mealfilter)
+		recipes = append(recipes, recipe)
+	}
+
 	t, _ := template.ParseFiles("recipes.html")
 	t.Execute(w, recipes)
 }
@@ -79,16 +161,9 @@ func groceriesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	database = readRecipes(recipeDirectory)
+	fmt.Println("this is a test")
 
-	var filters []func(Recipe) bool
-	for i := 0; i < 5; i++ {
-		recipe := getRecipe(filters)
-		filters = append(filters, func(r Recipe) bool {
-			return recipe.Title != r.Title
-		})
-		recipes = append(recipes, recipe)
-	}
+	database = readRecipes(recipeDirectory)
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/recipes", recipesHandler)
