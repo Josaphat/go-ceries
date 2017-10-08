@@ -5,7 +5,7 @@ time: 25-35 minutes
 servings: 2
 calories: 740
 ingredients:
-  - name	: Boneless, skinless chicken breasts
+  - name	: Boneless, skinless chicken breast
     quantity  : 2
     unit: breasts
   - name: ditali pasta
@@ -24,7 +24,7 @@ ingredients:
     quantity: 2
     unit: tbsp
   - name : Mascarpone cheese
-    quanity: 2
+    quantity: 2
     unit: tbsp
   - name: dried oregano
     quantity : 0.25

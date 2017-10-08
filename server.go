@@ -56,6 +56,28 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, recipes)
 }
 
+func groceriesHandler(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("groceries.html")
+
+	ingredients := make(map[string]Ingredient)
+	var names []string
+
+	for _, r := range recipes {
+		for _, i := range r.Ingredients {
+			if !contains(names, i.Name) {
+				names = append(names, i.Name)
+				ingredients[i.Name] = i
+			} else {
+				ingr := ingredients[i.Name]
+				ingr.Quantity += i.Quantity
+				ingredients[i.Name] = ingr
+			}
+		}
+	}
+
+	t.Execute(w, ingredients)
+}
+
 func main() {
 	database = readRecipes(recipeDirectory)
 
@@ -70,5 +92,6 @@ func main() {
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/recipes", recipesHandler)
+	http.HandleFunc("/groceries", groceriesHandler)
 	http.ListenAndServe(":8080", nil)
 }
